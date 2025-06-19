@@ -6,6 +6,7 @@ Character* Character::instance = nullptr;
 Character::Character() {
     name = name;
     level = 1;
+    maxLevel = 10;
     maxHealth = 200;
     health = maxHealth;
     attack = 30;
@@ -37,43 +38,58 @@ void Character::DisplayStatus()
     cout << "플레이어 소지 골드: " << gold << endl;
 }
 
-void Character::RecoveryHP(int health)
+void Character::RecoveryHP(int recoveryHp)
 {
-    instance->health += health; //체력 회복
+    health += recoveryHp; //체력 회복
 
     //만약 회복한 후 체력이 최대 체력을 넘는다면
-    if (instance->health > instance->maxHealth) {
-        instance->health = instance->maxHealth; //체력을 최대체력으로 조정
+    if (health > maxHealth) {
+        health = maxHealth; //체력을 최대체력으로 조정
     }
 }
 
 void Character::UpgradeStatus()
 {
-    instance->maxHealth += instance->level * 20; //최대 체력 증가
-    instance->attack = instance->attack + instance->level * 5; //공격력 증가
+    maxHealth += level * 20; //최대 체력 증가
+    attack = attack + level * 5; //공격력 증가
 
-    RecoveryHP(instance->maxHealth); //체력 회복
+    RecoveryHP(maxHealth); //체력 회복
 }
 
 void Character::LevelUp()
 {
-    instance->level += 1;
+    if (level < maxLevel) {
+        level += 1;
+    }
     UpgradeStatus();
 }
 
-void Character::GetExperience(int experience)
+void Character::GetExperience(int getExperience)
 {
-    instance->experience += experience;
+    experience += getExperience;
 
-    while(instance->experience >= needExperience)
+    while(experience >= needExperience)
     {
-        instance->experience -= needExperience; //레벨업에 필요한 경험치만큼 제거
+        experience -= needExperience; //레벨업에 필요한 경험치만큼 제거
         LevelUp();
     }
 }
 
+void Character::GetItem(Item* getItem)
+{
+    inventory.push_back(getItem); //아이템 획득
+}
+
 void Character::UseItem(int index)
 {
+    for (int i = 0; inventory.size(); i++)
+    {
+        if (inventory[i]->itemnum == index)
+        {
+            inventory[i]->Use(instance);
+            break;
+        }
+    }
 }
 
 void Character::VisitShop()
@@ -95,7 +111,12 @@ int main()
     Character* character = Character::GetInstance(playerName);
     character->DisplayStatus();
 
-    Character::ReleaseInstance();
+    character->GetExperience(300);
+    character->DisplayStatus();
+
+
+    
+    Character::ReleaseInstance(); //메모리 해제
 
     return 0;
 }
