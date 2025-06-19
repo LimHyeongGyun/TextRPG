@@ -40,12 +40,18 @@ void Character::DisplayStatus()
 
 #pragma region 체력관련
 
-void Character::DecreaseHP(int damage)
+void Character::TakeDamage(int damage)
 {
     health -= damage;
+    cout << "몬스터에게" << damage << "의 피해를 입었습니다!";
+
     if (health <= 0) {
         health = 0;
+
         Die();
+    }
+    else {
+        cout << "남은 체력: " << health << "/" << maxHealth << endl;
     }
 }
 
@@ -61,7 +67,7 @@ void Character::RecoveryHP(int recoveryHp)
 
 void Character::Die()
 {
-    cout << "플레이어 캐릭터가 사망하였습니다." << endl;
+    cout << "체력이 0이되어 플레이어 캐릭터가 사망하였습니다." << endl;
 }
 #pragma endregion
 
