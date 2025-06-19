@@ -1,18 +1,39 @@
-﻿// Character.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
-
-#include <iostream>
+﻿#include <iostream>
 #include "Character.h"
 
+Character* Character::instance = nullptr;
 
+Character::Character() {
+    name = name;
+    level = 1;
+    maxHealth = 200;
+    health = maxHealth;
+    attack = 30;
+    experience = 0;
+    needExperience = 100;
+    gold = 0;
+}
 
 Character* Character::GetInstance(string name)
 {
-    return nullptr;
+    //만약 instance가 생성되지 않았다면
+    if (instance == nullptr) {
+        instance = new Character(); //캐릭터 생성해주기
+    }
+    
+    instance->name = name;
+
+    return instance;
 }
 
 void Character::DisplayStatus()
 {
+    cout << "플레이어 캐릭터 이름: " << name << endl;
+    cout << "플레이어 레벨: " << level << endl;
+    cout << "플레이어 현재체력/최대체력: " << health << "/" << maxHealth << endl;
+    cout << "플레이어 공격력: " << attack << endl;
+    cout << "플레이어 현재 경험치/레벨업에 필요한 경험치: " << experience << "/" << needExperience << endl;
+    cout << "플레이어 소지 골드: " << gold << endl;
 }
 
 void Character::LevelUp()
@@ -27,7 +48,22 @@ void Character::VisitShop()
 {
 }
 
+void Character::ReleaseInstance()
+{
+    delete instance;
+    instance = nullptr;
+}
+
 int main()
 {
+    string playerName;
+    cout << "사용할 캐릭터 이름을 입력 해 주세요: ";
+    cin >> playerName;
+
+    Character* character = Character::GetInstance(playerName);
+    character->DisplayStatus();
+
+    Character::ReleaseInstance();
+
     return 0;
 }
