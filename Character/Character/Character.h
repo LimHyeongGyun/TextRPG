@@ -35,7 +35,7 @@ public:
 	void DisplayStatus(); //플레이어의 현재 스탯 확인
 
 	//전투 관련
-	void DecreaseHP(int damage); //피격시
+	void TakeDamage(int damage); //피격시
 	void RecoveryHP(int health); //체력 회복
 	void GetExperience(int experience); //경험치 획득 -> 몬스터 처치시 몬스터의 사망로직에서 호출하여 사용
 	void GetItem(Item* item);
