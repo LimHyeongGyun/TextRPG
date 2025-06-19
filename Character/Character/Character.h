@@ -22,12 +22,15 @@ private:
 	int gold = 0; //소지 골드
 
 	vector<Item*> inventory; //아이템 저장할 인벤토리
+
+	void UpgradeStatus();
 	void LevelUp();
 public:
 	Character();
 	static Character* GetInstance(string name = " "); //싱글턴 인스턴스
 	void DisplayStatus(); //플레이어의 현재 스탯 확인
 
+	void RecoveryHP(int health);
 	void GetExperience(int experience); //경험치 획득 -> 몬스터 처치시 몬스터의 사망로직에서 호출하여 사용
 	void UseItem(int index); //아이템 사용
 	void VisitShop(); //Shop과 상호작용
