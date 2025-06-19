@@ -17,7 +17,8 @@ Character::Character() {
 Character* Character::GetInstance(string name)
 {
     //만약 instance가 생성되지 않았다면
-    if (instance == nullptr) {
+    if (instance == nullptr)
+    {
         instance = new Character(); //캐릭터 생성해주기
     }
     
@@ -38,6 +39,18 @@ void Character::DisplayStatus()
 
 void Character::LevelUp()
 {
+    instance->level += 1;
+}
+
+void Character::GetExperience(int experience)
+{
+    instance->experience += experience;
+
+    while(instance->experience >= needExperience)
+    {
+        instance->experience -= needExperience; //레벨업에 필요한 경험치만큼 제거
+        LevelUp();
+    }
 }
 
 void Character::UseItem(int index)
