@@ -38,6 +38,17 @@ void Character::DisplayStatus()
     cout << "플레이어 소지 골드: " << gold << endl;
 }
 
+#pragma region 체력관련
+
+void Character::DecreaseHP(int damage)
+{
+    health -= damage;
+    if (health <= 0) {
+        health = 0;
+        Die();
+    }
+}
+
 void Character::RecoveryHP(int recoveryHp)
 {
     health += recoveryHp; //체력 회복
@@ -48,6 +59,13 @@ void Character::RecoveryHP(int recoveryHp)
     }
 }
 
+void Character::Die()
+{
+    cout << "플레이어 캐릭터가 사망하였습니다." << endl;
+}
+#pragma endregion
+
+#pragma region 레벨업관련
 void Character::UpgradeStatus()
 {
     maxHealth += level * 20; //최대 체력 증가
@@ -63,7 +81,9 @@ void Character::LevelUp()
     }
     UpgradeStatus();
 }
+#pragma endregion
 
+#pragma region 전투 종료시 경험치와 아이템 획득
 void Character::GetExperience(int getExperience)
 {
     experience += getExperience;
@@ -79,7 +99,9 @@ void Character::GetItem(Item* getItem)
 {
     inventory.push_back(getItem); //아이템 획득
 }
+#pragma endregion
 
+#pragma region 아이템 사용 및 상점이용
 void Character::UseItem(int index)
 {
     for (int i = 0; inventory.size(); i++)
@@ -92,9 +114,44 @@ void Character::UseItem(int index)
     }
 }
 
+//무기 장착
+void Character::EquipWeapon(Item* weapon)
+{
+    //무기가 비어있을 때
+    if (equipWeapon == nullptr) {
+        equipWeapon = weapon;
+    }
+    else {
+        UnEquipWeapon();
+        equipWeapon = weapon;
+    }
+}
+//방어구 장착
+void Character::EquipArmor(Item* armor)
+{
+    //방어구가 비어있을 때
+    if (equipArmor == nullptr) {
+        equipArmor = armor;
+    }
+    else {
+        UnEquipArmor();
+        equipArmor = armor;
+    }
+}
+//무기 장착
+void Character::UnEquipWeapon()
+{
+}
+//무기 해제
+void Character::UnEquipArmor()
+{
+}
+
+
 void Character::VisitShop()
 {
 }
+#pragma endregion
 
 void Character::ReleaseInstance()
 {
@@ -111,9 +168,8 @@ int main()
     Character* character = Character::GetInstance(playerName);
     character->DisplayStatus();
 
-    character->GetExperience(300);
-    character->DisplayStatus();
-
+    /*character->GetExperience(300);
+    character->DisplayStatus();*/
 
     
     Character::ReleaseInstance(); //메모리 해제
