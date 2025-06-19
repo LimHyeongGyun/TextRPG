@@ -42,10 +42,10 @@ public:
 	void Die();
 
 	void UseItem(int index); //아이템 사용
-	void EquipWeapon(Item* weapon);
-	void EquipArmor(Item* armor);
-	void UnEquipWeapon();
-	void UnEquipArmor();
+	void EquipWeapon(Item* weapon); //무기 장착
+	void EquipArmor(Item* armor); //방어구 장착
+	void UnEquipWeapon(); //무기 해제
+	void UnEquipArmor(); //방어구 해제
 
 	void VisitShop(); //Shop과 상호작용
 	static void ReleaseInstance(); //메모리 해제
