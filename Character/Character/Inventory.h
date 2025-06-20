@@ -1,20 +1,19 @@
-#ifndef INVENTORY_H_
-#define INVENTORY_H_
+#pragma once
 
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-
-#include "Character.h"
-#include "Item.h"
+#include<string>
+#include<vector>
+#include<unordered_map>
 
 using namespace std;
+
+class Character;
+class Item;
 
 class Inventory{
 private:
 	static Inventory* iveninstance;
 public:
-	static Inventory* GetInstance(string name = " "); //싱글턴 인스턴스
+	static Inventory* Get(string name = " "); //싱글턴 인스턴스
 
 	unordered_map<Item*, int> potionValue;
 	vector<Item*> weaponValue;
@@ -33,8 +32,6 @@ public:
 	void UnEquipWeapon(); //방어구 해제
 	void UnEquipArmor(); //무기 해제
 
-	void ReleaseInstance();
+	~Inventory();
 };
-
-#endif
 
