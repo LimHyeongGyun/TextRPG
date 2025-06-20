@@ -1,9 +1,8 @@
 ﻿#include <iostream>
 #include "Character.h"
+#include "Inventory.h"
 
 Character* Character::charinstance = nullptr;
-
-Inventory* inventory = Inventory::GetInstance();
 
 #pragma region PlayerInformation
 
@@ -20,11 +19,9 @@ Character::Character() {
 
     equipWeapon = nullptr;
     equipArmor = nullptr;
-
-    inventory->GetInstance(); //인벤토리 생성
 }
 
-Character* Character::GetInstance(string name)
+Character* Character::Get(string name)
 {
     //만약 instance가 생성되지 않았다면
     if (charinstance == nullptr)
@@ -158,11 +155,11 @@ void Character::UnEquipStatus(int getAttack, int getHealth)
 
 void Character::GetItem(Item* getItem, int num)
 {
-    inventory->ClassificationItem(getItem, num);
+    Inventory::Get()->ClassificationItem(getItem, num);
 }
 void Character::UseItem(int index)
 {
-    inventory->DisplayConsumeItem();
+    Inventory::Get()->DisplayConsumeItem();
 }
 
 void Character::GetGold(int getGold)
@@ -181,7 +178,7 @@ void Character::VisitShop()
 }
 #pragma endregion
 
-void Character::ReleaseInstance()
+Character::~Character()
 {
     delete charinstance;
     charinstance = nullptr;
@@ -193,13 +190,11 @@ int main()
     cout << "사용할 캐릭터 이름을 입력 해 주세요: ";
     cin >> playerName;
 
-    Character* character = Character::GetInstance(playerName);
+    Character* character = Character::Get(playerName);
     character->DisplayStatus();
 
     /*character->GetExperience(300);
     character->DisplayStatus();*/
-    character->ReleaseInstance();
-    inventory->ReleaseInstance();
 
     return 0;
 }

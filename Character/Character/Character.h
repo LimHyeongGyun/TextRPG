@@ -1,12 +1,8 @@
-#ifndef CHARACTER_H_
-#define CHARACTER_H_
-
-#include <string>
-#include <vector>
-
-#include "Inventory.h"
+#pragma once
 
 using namespace std;
+
+class Item;
 
 class Character {
 private:
@@ -30,7 +26,7 @@ private:
 
 public:
 	Character();
-	static Character* GetInstance(string name = " "); //싱글턴 인스턴스
+	static Character* Get(string name = " "); //싱글턴 인스턴스
 
 	//플레이어 정보
 	void DisplayStatus() const; //플레이어의 현재 스탯 확인
@@ -58,7 +54,5 @@ public:
 	void ConsumeGold(int consumeGold);
 	void VisitShop(); //Shop과 상호작용
 
-	void ReleaseInstance(); //메모리 해제
+	~Character();
 };
-
-#endif
