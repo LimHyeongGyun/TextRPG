@@ -53,6 +53,9 @@ public:
 	void EquipStatus(int getAttack, int getHealth); //장비 장착시 스탯 변환
 	void UnEquipStatus(int getAttack, int getHealth); //장비 해제시 스탯 변환
 
+	//골드 관련
+	void GetGold(int getGold);
+	void ConsumeGold(int consumeGold);
 	void VisitShop(); //Shop과 상호작용
 	static void ReleaseInstance(); //메모리 해제
 };

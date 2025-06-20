@@ -8,7 +8,7 @@ Inventory* Inventory::GetInstance(string name)
 {
     if (iveninstance == nullptr)
     {
-        iveninstance = new Inventory(); //캐릭터 생성해주기
+        iveninstance = new Inventory(); //인벤토리 생성해주기
     }
 
     return iveninstance;
@@ -183,4 +183,10 @@ void Inventory::UnEquipWeapon()
 void Inventory::UnEquipArmor()
 {
     character->GetEquipArmor()->equip = false;
+}
+
+void Inventory::ReleaseInstance()
+{
+    delete iveninstance;
+    iveninstance = nullptr;
 }
