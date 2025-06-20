@@ -37,7 +37,7 @@ public:
 	string GetName() const; //플레이어 이름
 
 	//전투 관련
-	void Attack();
+	int Attack();
 	void TakeDamage(int damage); //피격시
 	void RecoveryHP(int health); //체력 회복
 	void GetExperience(int experience); //경험치 획득 -> 몬스터 처치시 몬스터의 사망로직에서 호출하여 사용

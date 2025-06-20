@@ -53,9 +53,9 @@ string Character::GetName() const
 
 #pragma region Battle
 
-void Character::Attack()
+int Character::Attack()
 {
-
+    return attack;
 }
 
 void Character::TakeDamage(int damage)
@@ -69,7 +69,7 @@ void Character::TakeDamage(int damage)
         Die();
     }
     else {
-        cout << "남은 체력: " << health << "/" << maxHealth << endl;
+        cout << "플레이어 남은 체력: " << health << "/" << maxHealth << endl;
     }
 }
 
@@ -156,11 +156,11 @@ void Character::UnEquipStatus(int getAttack, int getHealth)
 
 void Character::GetItem(Item* getItem, int num)
 {
-    inventory->GetInstance()->ClassificationItem(getItem, num);
+    inventory->ClassificationItem(getItem, num);
 }
 void Character::UseItem(int index)
 {
-    
+    inventory->DisplayConsumeItem();
 }
 
 void Character::VisitShop()
