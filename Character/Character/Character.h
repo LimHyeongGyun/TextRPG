@@ -6,7 +6,7 @@ class Item;
 
 class Character {
 private:
-	static Character* charinstance;
+	static Character* charInstance;
 
 	string name; //플레이어 이름
 	int level = 1; //레벨

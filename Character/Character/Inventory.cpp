@@ -17,15 +17,22 @@ Inventory* Inventory::Get(string name)
 
 void Inventory::ClassificationItem(Item* item, int num)
 {
-    if (dynamic_cast<HealingPotion*>(item))
+    if (item->itemType == Potion)
     {
-        potionValue[item] = num;
+        //포션인벤토리에 해당 포션이 없다면
+        if (potionValue.find(item) == potionValue.end()) {
+            potionValue[item] = num;
+        }
+        //기존에 가지고 있던 포션이라면
+        else if (potionValue.find(item) != potionValue.end()) {
+            potionValue[item] += num; //기존에 가지고있던 갯수에 추가해주기
+        }
     }
-    if (dynamic_cast<Weapon*>(item))
+    if (item->itemType == Weapon)
     {
         weaponValue.push_back(item);
     }
-    if (dynamic_cast<Armor*>(item))
+    if (item->itemType == Armor)
     {
         armorValue.push_back(item);
     }

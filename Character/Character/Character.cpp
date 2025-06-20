@@ -2,7 +2,7 @@
 #include "Character.h"
 #include "Inventory.h"
 
-Character* Character::charinstance = nullptr;
+Character* Character::charInstance = nullptr;
 
 #pragma region PlayerInformation
 
@@ -24,14 +24,14 @@ Character::Character() {
 Character* Character::Get(string name)
 {
     //만약 instance가 생성되지 않았다면
-    if (charinstance == nullptr)
+    if (charInstance == nullptr)
     {
-        charinstance = new Character(); //캐릭터 생성해주기
+        charInstance = new Character(); //캐릭터 생성해주기
     }
     
-    charinstance->name = name;
+    charInstance->name = name;
 
-    return charinstance;
+    return charInstance;
 }
 
 void Character::DisplayStatus() const
@@ -180,21 +180,6 @@ void Character::VisitShop()
 
 Character::~Character()
 {
-    delete charinstance;
-    charinstance = nullptr;
-}
-
-int main()
-{
-    string playerName;
-    cout << "사용할 캐릭터 이름을 입력 해 주세요: ";
-    cin >> playerName;
-
-    Character* character = Character::Get(playerName);
-    character->DisplayStatus();
-
-    /*character->GetExperience(300);
-    character->DisplayStatus();*/
-
-    return 0;
+    delete charInstance;
+    charInstance = nullptr;
 }
