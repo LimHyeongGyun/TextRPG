@@ -123,10 +123,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\GameManager\GameManager.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\GameManager\GameManager.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Item.h" />
   </ItemGroup>
