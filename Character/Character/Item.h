@@ -6,6 +6,7 @@ class Item
 {
 private:
     static int nextItemNum;
+    ItemType type;
 public:
     int itemnum;
     int value;
