@@ -7,7 +7,6 @@
 
 
 class HealingPotion :public Item {
-	int itemnum = 1;
 	bool expendables = true;
 	std::string getName() const override {return "Healing Potion"; }//이름 반환
 	void Use(Character* character) override
@@ -23,7 +22,6 @@ class HealingPotion :public Item {
 class GreateHealingPotion :public Item {
 
 	bool expendables = true;
-	int itemnum = 2;
 
 	std::string getName() const override { return "Greate Healing Potion"; }//이름 반환
 
@@ -39,39 +37,37 @@ class GreateHealingPotion :public Item {
 	}
 };
 
-class Armor:public Item {
+class Armor : public Item {
 public:
 	bool isequip = false;
-	int df; // 모든 갑옷이 공통으로 가질 방어력 값
+	int df;
+	std::string name;
 
-	// Armor의 생성자: df 값을 받아 초기화합니다.
-	Armor(int defense_value = 0) : df(defense_value) {}
-	std::string getName() const override { return "갑옷"; }//이름 반환
-	void Use(Character* character) override {}
-};
+	Armor(const std::string& armor_name, int defense_value)
+		: name(armor_name), df(defense_value) {
+	}
 
-class woodArmor :public Armor {
-	woodArmor() : Armor(10) {}
-	std::string getName() const override { return "나무갑옷"; }
-
-};
-class IronArmor :public Armor {
-	IronArmor() : Armor(50) {}
-	std::string getName() const override { return "철갑옷"; }
-
-};
-class DiamondArmor :public Armor {
-	DiamondArmor() : Armor(100) {}
-	std::string getName() const override { return "다이아몬드갑옷"; }
-
+	std::string getName() const override { return name; }
+	void Use(Character* character) override {
+		// 구현부
+	}
 };
 
 class Weapon : public Item {
 public:
+	std::string name;
+	int at;
 	bool isequip = false;
-	std::string getName() const override { return "무기"; }
-	void Use(Character* character) override {}
+	Weapon(const std::string& weapon_name,int atack_value)
+		: name(weapon_name),at(atack_value) {
+	};
 
+	std::string getName() const override { return name; }
+	void Use(Character* character) override {
+		// 구현부
+	}
 
 };
+
+
 
