@@ -20,6 +20,8 @@ Character::Character() {
 
     equipWeapon = nullptr;
     equipArmor = nullptr;
+
+    inventory->GetInstance(); //인벤토리 생성
 }
 
 Character* Character::GetInstance(string name)
@@ -161,6 +163,16 @@ void Character::GetItem(Item* getItem, int num)
 void Character::UseItem(int index)
 {
     inventory->DisplayConsumeItem();
+}
+
+void Character::GetGold(int getGold)
+{
+    gold += getGold;
+}
+
+void Character::ConsumeGold(int consumeGold)
+{
+    gold -= consumeGold;
 }
 
 void Character::VisitShop()

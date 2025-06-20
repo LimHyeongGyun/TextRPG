@@ -32,6 +32,8 @@ public:
 	void EquipArmor(Item* armor); //规绢备 厘馒
 	void UnEquipWeapon(); //规绢备 秦力
 	void UnEquipArmor(); //公扁 秦力
+
+	static void ReleaseInstance();
 };
 
 #endif
