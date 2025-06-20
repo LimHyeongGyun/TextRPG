@@ -4,6 +4,7 @@
 
 Slime::Slime(int level) {
 	name = "Slime";
+	alive = true;
 
 	int baseMinHp = level * 20;
 	int baseMaxHp = level * 30;
@@ -38,18 +39,20 @@ void Monster::takeDamage(int damage) {
 }
 
 int Monster::getExpDrop() const {
+	if (alive) return 0;
 	return expDrop;
 }
 
 int Monster::getGoldDrop() const {
+	if (alive) return 0;
 	return goldDrop;
 }
 
 string Monster::getItemDrop() const {
+	if (alive) return "";
 	return itemDrop;
 }
 
 bool Monster::IsAlive() {
-	if (health > 0) return true;
-	else return false;
+	return alive;
 }

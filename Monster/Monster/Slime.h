@@ -5,4 +5,5 @@
 class Slime : public Monster {
 public:
 	Slime(int level);
+	bool IsAlive();
 };

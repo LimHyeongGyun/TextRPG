@@ -5,4 +5,5 @@
 class Goblin : public Monster {
 public:
 	Goblin(int level);
+	bool IsAlive();
 };

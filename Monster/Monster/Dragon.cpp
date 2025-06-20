@@ -4,6 +4,7 @@
 
 Dragon::Dragon(int level) {
 	name = "Dragon";
+	alive = true;
 
 	int baseMinHp = level * 20;
 	int baseMaxHp = level * 30;
@@ -34,24 +35,29 @@ int Monster::Attack() const {
 
 void Monster::takeDamage(int damage) {
 	health -= damage;
-	if (health < 0) health = 0;
+	if (health < 0) {
+		health = 0;
+		alive = false;
+	}
 }
 
 int Monster::getExpDrop() const {
+	if (alive) return 0;
 	return expDrop;
 }
 
 int Monster::getGoldDrop() const {
+	if (alive) return 0;
 	return goldDrop;
 }
 
 string Monster::getItemDrop() const {
+	if (alive) return "";
 	return itemDrop;
 }
 
 bool Monster::IsAlive() {
-	if (health > 0) return true;
-	else return false;
+	return alive;
 }
 
 float Dragon::getMultiplyHp() const {

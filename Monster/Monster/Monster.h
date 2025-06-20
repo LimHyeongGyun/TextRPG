@@ -23,6 +23,8 @@ protected:
 	int goldDrop;
 	string itemDrop;
 
+	bool alive;
+
 public:
 	string getName() const;						// 몬스터 이름
 	int getHealth() const;						// 몬스터 체력
@@ -33,7 +35,7 @@ public:
 	int getGoldDrop() const;					// 골드 드랍
 	string getItemDrop() const;					// 아이템 드랍
 
-	bool IsAlive();								// 몬스터 사망 여부
+	virtual bool IsAlive();						// 몬스터 사망 여부
 
 	virtual float getMultiplyHp() const = 0;	// 체력 계수
 	virtual float getMultiplyAtk() const = 0;	// 공격력 계수

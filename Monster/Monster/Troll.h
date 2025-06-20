@@ -5,4 +5,5 @@
 class Troll : public Monster {
 public:
 	Troll(int level);
+	bool IsAlive();
 };
