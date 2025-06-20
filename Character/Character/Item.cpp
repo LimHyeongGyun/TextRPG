@@ -1,73 +1,75 @@
-#include "Item.h"
+ï»¿#include "Item.h"
 #include "Character.h"
 
 
 
 
-
-
-class HealingPotion :public Item {
-	bool expendables = true;
-	std::string getName() const override {return "Healing Potion"; }//ÀÌ¸§ ¹ÝÈ¯
-	void Use(Character* character) override
+class MonsterItem :public Item {
+public:
+	std::string name;
+	MonsterItem(const std::string& name, int value) :name(name)
 	{
-		if (character)		//»ç¿ë Á¶°Ç Ã¼Å© ¹× È¿°ú Àû¿ë
+		this->value = value;
+		//ê°€ê²© ê²°ì •
+	}
+	std::string getName() const override { return name; }
 
-		{
-				character->RecoveryHP(50);//Ã¼·Â 50È¸º¹
-		}
+	void Use(Character* character) override {
+		// êµ¬í˜„ë¶€
 	}
 };
 
-class GreateHealingPotion :public Item {
+class HealingPotion :public Item {
+protected:
+	int heal;
+	std::string name;
+public:
+	HealingPotion(const std::string& name, int heal, int value) :name(name), heal(heal) {
+		this->value = value;
+	};
 
-	bool expendables = true;
-
-	std::string getName() const override { return "Greate Healing Potion"; }//ÀÌ¸§ ¹ÝÈ¯
+	std::string getName() const override { return name; }//ì´ë¦„ ë°˜í™˜
 
 	void Use(Character* character) override
 	{
-
-		if (character)		//»ç¿ë Á¶°Ç Ã¼Å© ¹× È¿°ú Àû¿ë
+		if (character)		//ì‚¬ìš© ì¡°ê±´ ì²´í¬ ë° íš¨ê³¼ ì ìš©
 
 		{
-			character->RecoveryHP(100);//Ã¤·Â 100È¸º¹
-
+			character->RecoveryHP(heal);//ì²´ë ¥ íšŒë³µ
 		}
 	}
 };
 
 class Armor : public Item {
 public:
-	bool isequip = false;
-	int df;
+	bool equip = false;
+	int health;
 	std::string name;
 
-	Armor(const std::string& armor_name, int defense_value)
-		: name(armor_name), df(defense_value) {
+	Armor(const std::string& armor_name, int defense_value, int value)
+		: name(armor_name), health(defense_value) {
+		this->value = value;
 	}
 
 	std::string getName() const override { return name; }
 	void Use(Character* character) override {
-		// ±¸ÇöºÎ
+		// êµ¬í˜„ë¶€
 	}
 };
 
 class Weapon : public Item {
 public:
 	std::string name;
-	int at;
-	bool isequip = false;
-	Weapon(const std::string& weapon_name,int atack_value)
-		: name(weapon_name),at(atack_value) {
+	int attack;
+	bool equip = false;
+	Weapon(const std::string& weapon_name, int atack_value, int value)
+		: name(weapon_name), attack(atack_value) {
+		this->value = value;
 	};
 
 	std::string getName() const override { return name; }
 	void Use(Character* character) override {
-		// ±¸ÇöºÎ
+		// êµ¬í˜„ë¶€
 	}
 
 };
-
-
-
