@@ -27,6 +27,9 @@
     <ClCompile Include="Slime.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h">

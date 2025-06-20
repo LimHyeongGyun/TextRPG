@@ -1,5 +1,4 @@
 #include "Monster.h"
-#include "Character.h"
 
 Troll::Troll(int level) {
 	name = "Troll";

@@ -78,4 +78,17 @@ public:
 	void takeDamage(int damage) override;
 };
 
+class BossMonster : public Monster {
+private:
+	string name;
+	int health;
+	int attack;
+public:
+	BossMonster(int level);
+	string getName() const override;
+	int getHealth() const override;
+	int Attack() const override;
+	void takeDamage(int damage) override;
+};
+
 #endif
