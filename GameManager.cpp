@@ -1,109 +1,147 @@
-﻿#include "GameManager.h" 
-#include "Slime.h" // 슬라임
-#include "Orc.h" // 오크
-#include "Troll.h" // 트롤 
-#include "Goblin.h" // 고블린 
-#include "Item.h" // 아이템
+﻿#include "GameManager.h"
+#include "Goblin.h"
+#include "Orc.h"
+#include "Troll.h"
+#include "Slime.h"
+#include "Dragon.h"
+#include "Character.h"
+#include "Item.h"
+#include "Inventory.h"
+#include "Shop.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-// 만들어야 하는 것
-// 1. 게임 캐릭터를 생성하는 코드
-// 2. 몬스터 생성 로직
-// 3. 전투에 대한 로직
-// 4. 아이템 로직
-
-Monster* GameManager::GenerateMonster(int level) { // 몬스터 스폰 
-
-    Monster* spawn;
-
-    if (level <= 3) { spawn = new Slime(); } // 슬라임 스폰
-    else if (level <= 6) { spawn = new Orc(); } // 오그 스폰
-    else if (level <= 9) { spawn = new Troll(); } // 트롤 스폰
-    else { spawn = new Goblin(); } // 고블린 스폰
-    return spawn;
+GameManager::GameManager() {
+    player = Character::GetInstance("용사"); // 싱글턴을 통한 캐릭터객체 생성
+    shop = new Shop();
 }
 
-void GameManager::Battle(Character* character, Monster* monster) // 몬스터와 전투 (몬스터를 잡을 시 경험치 및 보상 구현)
-{
-    while (character->isAlive() && monster->isAlive()) // 플레이어와 몬스터가 둘다 살아있다면 실행
-    {
-        int damage = character->getAttack(); // 플레이어 턴
-        monster->takeDamage(damage);
-        cout << character->getName() << "이(가) " << monster->getName() << "에게 " << damage << "의 데미지를 입혔습니다!" << endl;
-        cout << monster->getName() << " HP: " << monster->getHP() << endl;
+Monster* GameManager::GenerateMonster(int level) {
+    if (level <= 3) return new Slime(level);
+    else if (level <= 5) return new Orc(level);
+    else if (level <= 7) return new Troll(level);
+    else return new Goblin(level);
+}
 
-        if (monster->isAlive()) // 몬스터 턴 – 살아있을 때
-        {
-            damage = monster->getAttack();
-            character->takeDamage(damage);
-            cout << monster->getName() << "이(가) " << character->getName() << "에게 " << damage << "의 반격 데미지를 입혔습니다!" << endl;
-            cout << character->getName() << " HP: " << character->getHP() << endl;
+BossMonster* GameManager::GenerateBossMonster(int level) {
+    return new Dragon(level);
+}
+
+void GameManager::Battle(Character* character, Monster* monster) {
+    while (character->isAlive() && monster->IsAlive()) {
+        int damage = character->Attack();
+        monster->takeDamage(damage);
+        cout << character->GetName() << "이(가) " << monster->getName() << "을(를) 공격! 몬스터 체력: " << monster->getHealth() << endl;
+
+        if (monster->IsAlive()) {
+            int mDamage = monster->Attack();
+            character->TakeDamage(mDamage);
+            cout << monster->getName() << "의 반격! " << character->GetName() << " 체력: " << character->GetCurrentHealth() << endl;
         }
     }
 
-    if (character->isAlive()) { // 전투 결과
-        cout << "전투 종료!" << endl;
-        cout << monster->getName() << " 처치 성공!" << endl;
+    if (character->isAlive()) {
+        cout << "\n전투 승리!" << endl;
+        int exp = monster->getExpDrop();
+        int gold = monster->getGoldDrop();
+        character->GetExperience(exp);
+        character->GainGold(gold);
+        cout << "경험치: +" << exp << ", 골드: +" << gold << endl;
 
-        Item* item = monster->DropItem(); // 몬스터에게서 아이템 드롭
-        character->AddItem(item); // 캐릭터 인벤토리에 아이템 저장
-        cout << "획득 아이템:" << item->getName() << endl; // 획은한 아이템에 대한 이름 출력
+        string itemName = monster->getItemDrop();
+        if (!itemName.empty()) {
+            Item* dropItem = new Item(itemName);
+            character->GetItem(dropItem, 1);
+            cout << "아이템 획득: " << dropItem->name << endl;
+        }
     }
     else {
-        cout << endl;
-        cout << character->getName() << "이(가) 전투에서 패배했습니다..." << endl;
+        cout << character->GetName() << "이(가) 사망했습니다. 게임 오버." << endl;
+    }
+
+    delete monster;
+}
+
+void GameManager::visitShop(Character* character) {
+    bool shopping = true;
+    while (shopping) {
+        cout << "\n=== 상점 ===" << endl;
+        shop->displayItems();
+        cout << "1. 아이템 구매\n2. 아이템 판매\n3. 나가기\n선택: ";
+        int choice;
+        cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            int index;
+            cout << "구매할 아이템 번호: ";
+            cin >> index;
+            shop->buyItem(index - 1, character);
+            break;
+        }
+        case 2: {
+            Inventory::GetInstance()->DisplayInventory();
+            int index;
+            cout << "판매할 아이템 번호: ";
+            cin >> index;
+            shop->sellItem(index - 1, character);
+            break;
+        }
+        case 3:
+            shopping = false;
+            break;
+        default:
+            cout << "잘못된 입력입니다." << endl;
+            break;
+        }
     }
 }
 
-void GameManager::DisplayInventory(Character* character) { // 인벤토리 보이기
-    character->ShowInventory();
+void GameManager::DisplayInventory(Character* character) {
+    Inventory::GetInstance()->DisplayInventory();
 }
 
-void Inventory::AddItem(Item* item) { // 인벤토리에 아이템 추가
-    this->item.push_back(item);
-}
+void GameManager::Run() {
+    while (player->isAlive() && player->GetLevel() < 10) {
+        cout << "\n===== 전투 시작 (레벨: " << player->GetLevel() << ") =====" << endl;
+        Monster* monster = GenerateMonster(player->GetLevel());
+        cout << monster->getName() << " 등장! 체력: " << monster->getHealth() << ", 공격력: " << monster->Attack() << endl;
+        Battle(player, monster);
 
-void Inventory::ShowInventory() { // 인벤토리에 있는 아이템을 콘솔에 보여줌
-    for (Item* i : item) {
-        cout << " " << i->getName() << endl;
-    }
-}
+        if (!player->isAlive()) break;
 
-void GameManager::Run() { // RPG 메인 루프 역할
-    player = new Character("용사", 100, 20); // 플레이어 캐릭터 생성
+        char choice;
+        cout << "상점을 방문하시겠습니까? (Y/N): ";
+        cin >> choice;
+        if (choice == 'Y' || choice == 'y') {
+            visitShop(player);
+        }
 
-    cout << endl;
-    while (player->isAlive()) {
-        cout << endl << "[레벨: " << player->getLevel() << "] 전투를 시작합니다." << endl;
-        Monster* monster = GenerateMonster(player->getLevel()); // 레벨에 따라 몬스터 생성
-        Battle(player, monster); // 몬스터와 전투
-        DisplayInventory(player); // 플레이어의 인벤토리 출력
-
-        char cont;
-        cout << endl << "계속 하시겠습니까? (y/n): ";
-        cin >> cont;
-        if (cont != 'y' && cont != 'Y') break;
+        cout << "인벤토리를 확인하시겠습니까? (Y/N): ";
+        cin >> choice;
+        if (choice == 'Y' || choice == 'y') {
+            DisplayInventory(player);
+        }
     }
 
-    cout << endl << "게임 종료. 수고하셨습니다!" << endl;
+    if (player->isAlive() && player->GetLevel() >= 10) {
+        cout << "\n===== 보스 몬스터 등장 =====" << endl;
+        BossMonster* boss = GenerateBossMonster(player->GetLevel());
+        cout << boss->getName() << " 등장! 체력: " << boss->getHealth() << ", 공격력: " << boss->Attack() << endl;
+        Battle(player, boss);
+        delete boss;
+
+        if (player->isAlive()) {
+            cout << "\n축하합니다! 보스를 물리치고 게임을 클리어했습니다!" << endl;
+        }
+        else {
+            cout << "\n보스에게 패배했습니다. 게임 오버." << endl;
+        }
+    }
+
+    cout << "\n게임 종료. 메모리 정리 중..." << endl;
+    Character::ReleaseInstance();
 }
-
-int main() {
-
-
-
-
-
-}
-
-
-// 현재 가상 출력 시 결과
-//구간	내용
-//1 – 3 레벨 슬라임 반복 처치, EXP + 10씩 → 레벨 4 도달
-//4 – 5 레벨 오크 등장, EXP + 20씩 획득 → 레벨 5 중반까지 진행
-//레벨 5 오크의 공격력이 커서 3번째 오크 전투에서 HP 0 → 사망
-//최종
-//도달 레벨 : 5
-//인벤토리 : 슬라임 젤리 × 6, 오크 송곳니 × 2
