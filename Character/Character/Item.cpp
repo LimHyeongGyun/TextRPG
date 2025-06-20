@@ -1,5 +1,7 @@
-#include "Item.h"
+ï»¿#include "Item.h"
 #include "Character.h"
+
+
 
 
 class MonsterItem :public Item {
@@ -8,12 +10,12 @@ public:
 	MonsterItem(const std::string& name, int value) :name(name)
 	{
 		this->value = value;
-		//°¡°Ý °áÁ¤
+		//ê°€ê²© ê²°ì •
 	}
 	std::string getName() const override { return name; }
 
 	void Use(Character* character) override {
-		// ±¸ÇöºÎ
+		// êµ¬í˜„ë¶€
 	}
 };
 
@@ -26,14 +28,14 @@ public:
 		this->value = value;
 	};
 
-	std::string getName() const override { return name; }//ÀÌ¸§ ¹ÝÈ¯
+	std::string getName() const override { return name; }//ì´ë¦„ ë°˜í™˜
 
 	void Use(Character* character) override
 	{
-		if (character)		//»ç¿ë Á¶°Ç Ã¼Å© ¹× È¿°ú Àû¿ë
+		if (character)		//ì‚¬ìš© ì¡°ê±´ ì²´í¬ ë° íš¨ê³¼ ì ìš©
 
 		{
-			character->RecoveryHP(heal);//Ã¼·Â È¸º¹
+			character->RecoveryHP(heal);//ì²´ë ¥ íšŒë³µ
 		}
 	}
 };
@@ -51,7 +53,7 @@ public:
 
 	std::string getName() const override { return name; }
 	void Use(Character* character) override {
-		// ±¸ÇöºÎ
+		// êµ¬í˜„ë¶€
 	}
 };
 
@@ -67,8 +69,7 @@ public:
 
 	std::string getName() const override { return name; }
 	void Use(Character* character) override {
-		// ±¸ÇöºÎ
+		// êµ¬í˜„ë¶€
 	}
 
 };
-
