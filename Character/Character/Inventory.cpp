@@ -93,7 +93,8 @@ void Inventory::DisplayWeapon()
         return;
     }
 
-    for (int i = 0; i < weaponValue.size(); i++) {
+    for (int i = 0; i < weaponValue.size(); i++)
+    {
         cout << i + 1 <<".무기 이름: " << weaponValue[i]->name << endl;
     }
     int num = 0;
@@ -132,7 +133,6 @@ void Inventory::DisplayArmor()
         EquipArmor(armorValue[num - 1]);
     }
 }
-
 
 
 void Inventory::EquipWeapon(Item* weapon)
@@ -187,6 +187,19 @@ void Inventory::UnEquipArmor()
 
 void Inventory::ReleaseInstance()
 {
+    for (auto& it : potionValue) {
+        delete it.first;
+    }
+
+    for (int i = 0; i < weaponValue.size(); i++)
+    {
+        delete weaponValue[i];
+    }
+    for (int i = 0; i < armorValue.size(); i++)
+    {
+        delete armorValue[i];
+    }
+
     delete iveninstance;
     iveninstance = nullptr;
 }
