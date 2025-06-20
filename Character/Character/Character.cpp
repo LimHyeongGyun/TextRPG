@@ -1,7 +1,11 @@
 ﻿#include <iostream>
 #include "Character.h"
 
-Character* Character::instance = nullptr;
+Character* Character::charinstance = nullptr;
+
+Inventory* inventory = Inventory::GetInstance();
+
+#pragma region PlayerInformation
 
 Character::Character() {
     name = name;
@@ -13,22 +17,25 @@ Character::Character() {
     experience = 0;
     needExperience = 100;
     gold = 0;
+
+    equipWeapon = nullptr;
+    equipArmor = nullptr;
 }
 
 Character* Character::GetInstance(string name)
 {
     //만약 instance가 생성되지 않았다면
-    if (instance == nullptr)
+    if (charinstance == nullptr)
     {
-        instance = new Character(); //캐릭터 생성해주기
+        charinstance = new Character(); //캐릭터 생성해주기
     }
     
-    instance->name = name;
+    charinstance->name = name;
 
-    return instance;
+    return charinstance;
 }
 
-void Character::DisplayStatus()
+void Character::DisplayStatus() const
 {
     cout << "플레이어 캐릭터 이름: " << name << endl;
     cout << "플레이어 레벨: " << level << endl;
@@ -38,7 +45,18 @@ void Character::DisplayStatus()
     cout << "플레이어 소지 골드: " << gold << endl;
 }
 
-#pragma region 체력관련
+string Character::GetName() const
+{
+    return name;
+}
+#pragma endregion
+
+#pragma region Battle
+
+void Character::Attack()
+{
+
+}
 
 void Character::TakeDamage(int damage)
 {
@@ -71,13 +89,16 @@ void Character::Die()
 }
 #pragma endregion
 
-#pragma region 레벨업관련
-void Character::UpgradeStatus()
+#pragma region Experience(Level)
+void Character::GetExperience(int getExperience)
 {
-    maxHealth += level * 20; //최대 체력 증가
-    attack = attack + level * 5; //공격력 증가
+    experience += getExperience;
 
-    RecoveryHP(maxHealth); //체력 회복
+    while (experience >= needExperience)
+    {
+        experience -= needExperience; //레벨업에 필요한 경험치만큼 제거
+        LevelUp();
+    }
 }
 
 void Character::LevelUp()
@@ -87,82 +108,71 @@ void Character::LevelUp()
     }
     UpgradeStatus();
 }
-#pragma endregion
 
-#pragma region 전투 종료시 경험치와 아이템 획득
-void Character::GetExperience(int getExperience)
+void Character::UpgradeStatus()
 {
-    experience += getExperience;
+    maxHealth += level * 20; //최대 체력 증가
+    attack = attack + level * 5; //공격력 증가
 
-    while(experience >= needExperience)
-    {
-        experience -= needExperience; //레벨업에 필요한 경험치만큼 제거
-        LevelUp();
-    }
-}
-
-void Character::GetItem(Item* getItem)
-{
-    inventory.push_back(getItem); //아이템 획득
+    RecoveryHP(maxHealth); //체력 회복
 }
 #pragma endregion
 
-#pragma region 아이템 사용 및 상점이용
+#pragma region Equipment
+Item* Character::GetEquipWeapon()
+{
+    return equipWeapon;
+}
+Item* Character::GetEquipArmor()
+{
+    return equipArmor;
+}
+
+void Character::SetEquipWeapon(Item* weapon)
+{
+    equipWeapon = weapon;
+}
+void Character::SetEquipArmor(Item* armor)
+{
+    equipArmor = armor;
+}
+
+void Character::EquipStatus(int getAttack, int getHealth)
+{
+    attack += getAttack;
+    maxHealth += getHealth;
+}
+
+void Character::UnEquipStatus(int getAttack, int getHealth)
+{
+    attack -= getAttack;
+    maxHealth -= getHealth;
+}
+
+
+#pragma endregion
+
+#pragma region Item & Shop
+
+void Character::GetItem(Item* getItem, int num)
+{
+    inventory->GetInstance()->ClassificationItem(getItem, num);
+}
 void Character::UseItem(int index)
 {
-    for (int i = 0; inventory.size(); i++)
-    {
-        if (inventory[i]->itemnum == index)
-        {
-            inventory[i]->Use(instance);
-            break;
-        }
-    }
+    
 }
-
-//무기 장착
-void Character::EquipWeapon(Item* weapon)
-{
-    //무기가 비어있을 때
-    if (equipWeapon == nullptr) {
-        equipWeapon = weapon;
-    }
-    else {
-        UnEquipWeapon();
-        equipWeapon = weapon;
-    }
-}
-//방어구 장착
-void Character::EquipArmor(Item* armor)
-{
-    //방어구가 비어있을 때
-    if (equipArmor == nullptr) {
-        equipArmor = armor;
-    }
-    else {
-        UnEquipArmor();
-        equipArmor = armor;
-    }
-}
-//무기 장착
-void Character::UnEquipWeapon()
-{
-}
-//무기 해제
-void Character::UnEquipArmor()
-{
-}
-
 
 void Character::VisitShop()
 {
+
 }
 #pragma endregion
 
 void Character::ReleaseInstance()
 {
-    delete instance;
-    instance = nullptr;
+    delete charinstance;
+    charinstance = nullptr;
 }
 
 int main()
