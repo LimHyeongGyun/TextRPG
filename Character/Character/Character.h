@@ -57,7 +57,8 @@ public:
 	void GetGold(int getGold);
 	void ConsumeGold(int consumeGold);
 	void VisitShop(); //Shop과 상호작용
-	static void ReleaseInstance(); //메모리 해제
+
+	void ReleaseInstance(); //메모리 해제
 };
 
 #endif

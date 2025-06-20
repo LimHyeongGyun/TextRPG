@@ -33,7 +33,7 @@ public:
 	void UnEquipWeapon(); //规绢备 秦力
 	void UnEquipArmor(); //公扁 秦力
 
-	static void ReleaseInstance();
+	void ReleaseInstance();
 };
 
 #endif

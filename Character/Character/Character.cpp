@@ -198,9 +198,8 @@ int main()
 
     /*character->GetExperience(300);
     character->DisplayStatus();*/
-
-    
-    Character::ReleaseInstance(); //메모리 해제
+    character->ReleaseInstance();
+    inventory->ReleaseInstance();
 
     return 0;
 }
