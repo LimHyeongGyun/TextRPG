@@ -1,7 +1,7 @@
-﻿#include <iostream>
+﻿﻿#include <iostream>
 #include "Character.h"
 
-Character* Character::charinstance = nullptr;
+Character * Character::charinstance = nullptr;
 
 Inventory* inventory = Inventory::GetInstance();
 
@@ -29,7 +29,7 @@ Character* Character::GetInstance(string name)
     {
         charinstance = new Character(); //캐릭터 생성해주기
     }
-    
+
     charinstance->name = name;
 
     return charinstance;
@@ -160,7 +160,7 @@ void Character::GetItem(Item* getItem, int num)
 }
 void Character::UseItem(int index)
 {
-    
+
 }
 
 void Character::VisitShop()
@@ -187,7 +187,7 @@ int main()
     /*character->GetExperience(300);
     character->DisplayStatus();*/
 
-    
+
     Character::ReleaseInstance(); //메모리 해제
 
     return 0;
