@@ -1,4 +1,5 @@
 ﻿#include "Monster.h"
+#include "Goblin.h"
 #include <vector>
 
 Goblin::Goblin(int level) {
@@ -19,31 +20,36 @@ Goblin::Goblin(int level) {
 	vector<string> possibleItems = { "고블린 이빨", "화려한 금화 자루(10G)" };
 	itemDrop = possibleItems[getRandomInRange(0, possibleItems.size() - 1)];
 }
-string Goblin::getName() const {
+string Monster::getName() const {
 	return name;
 }
 
-int Goblin::getHealth() const {
+int Monster::getHealth() const {
 	return health;
 }
 
-int Goblin::Attack() const {
+int Monster::Attack() const {
 	return attack;
 }
 
-void Goblin::takeDamage(int damage) {
+void Monster::takeDamage(int damage) {
 	health -= damage;
 	if (health < 0) health = 0;
 }
 
-int Goblin::getExpDrop() const {
+int Monster::getExpDrop() const {
 	return expDrop;
 }
 
-int Goblin::getGoldDrop() const {
+int Monster::getGoldDrop() const {
 	return goldDrop;
 }
 
-string Goblin::getItemDrop() const {
+string Monster::getItemDrop() const {
 	return itemDrop;
+}
+
+bool Monster::IsAlive() {
+	if (health > 0) return true;
+	else return false;
 }

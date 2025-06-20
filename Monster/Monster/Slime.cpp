@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Slime.h"
 #include <vector>
 
 Slime::Slime(int level) {
@@ -19,31 +20,36 @@ Slime::Slime(int level) {
 	vector<string> possibleItems = { "끈적한 점액", "구겨진 동전 주머니(1G)" };
 	itemDrop = possibleItems[getRandomInRange(0, possibleItems.size() - 1)];
 }
-string Slime::getName() const {
+string Monster::getName() const {
 	return name;
 }
 
-int Slime::getHealth() const {
+int Monster::getHealth() const {
 	return health;
 }
 
-int Slime::Attack() const {
+int Monster::Attack() const {
 	return attack;
 }
 
-void Slime::takeDamage(int damage) {
+void Monster::takeDamage(int damage) {
 	health -= damage;
 	if (health < 0) health = 0;
 }
 
-int Slime::getExpDrop() const {
+int Monster::getExpDrop() const {
 	return expDrop;
 }
 
-int Slime::getGoldDrop() const {
+int Monster::getGoldDrop() const {
 	return goldDrop;
 }
 
-string Slime::getItemDrop() const {
+string Monster::getItemDrop() const {
 	return itemDrop;
+}
+
+bool Monster::IsAlive() {
+	if (health > 0) return true;
+	else return false;
 }

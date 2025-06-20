@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Dragon.h"
 #include <vector>
 
 Dragon::Dragon(int level) {
@@ -10,8 +11,8 @@ Dragon::Dragon(int level) {
 	int baseMinAtk = level * 5;
 	int baseMaxAtk = level * 10;
 
-	health = getRandomInRange(baseMinHp, baseMaxHp) * 1.5;
-	attack = getRandomInRange(baseMinAtk, baseMaxAtk) * 1.5;
+	health = getRandomInRange(baseMinHp, baseMaxHp) * getMultiplyHp();
+	attack = getRandomInRange(baseMinAtk, baseMaxAtk) * getMultiplyAtk();
 
 	expDrop = 50;
 	goldDrop = getRandomInRange(10, 20);
@@ -19,31 +20,44 @@ Dragon::Dragon(int level) {
 	vector<string> possibleItems = { "드래곤 심장", "전설의 금화 상자(1000G)" };
 	itemDrop = possibleItems[getRandomInRange(0, possibleItems.size() - 1)];
 }
-string Dragon::getName() const {
+string Monster::getName() const {
 	return name;
 }
 
-int Dragon::getHealth() const {
+int Monster::getHealth() const {
 	return health;
 }
 
-int Dragon::Attack() const {
+int Monster::Attack() const {
 	return attack;
 }
 
-void Dragon::takeDamage(int damage) {
+void Monster::takeDamage(int damage) {
 	health -= damage;
 	if (health < 0) health = 0;
 }
 
-int Dragon::getExpDrop() const {
+int Monster::getExpDrop() const {
 	return expDrop;
 }
 
-int Dragon::getGoldDrop() const {
+int Monster::getGoldDrop() const {
 	return goldDrop;
 }
 
-string Dragon::getItemDrop() const {
+string Monster::getItemDrop() const {
 	return itemDrop;
+}
+
+bool Monster::IsAlive() {
+	if (health > 0) return true;
+	else return false;
+}
+
+float Dragon::getMultiplyHp() const {
+	return 1.5;
+}
+
+float Dragon::getMultiplyAtk() const {
+	return 1.5;
 }

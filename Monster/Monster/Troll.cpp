@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Troll.h"
 #include <vector>
 
 Troll::Troll(int level) {
@@ -19,31 +20,36 @@ Troll::Troll(int level) {
 	vector<string> possibleItems = { "트롤 가죽", "묵직한 금화 주머니(5G)" };
 	itemDrop = possibleItems[getRandomInRange(0, possibleItems.size() - 1)];
 }
-string Troll::getName() const {
+string Monster::getName() const {
 	return name;
 }
 
-int Troll::getHealth() const {
+int Monster::getHealth() const {
 	return health;
 }
 
-int Troll::Attack() const {
+int Monster::Attack() const {
 	return attack;
 }
 
-void Troll::takeDamage(int damage) {
+void Monster::takeDamage(int damage) {
 	health -= damage;
 	if (health < 0) health = 0;
 }
 
-int Troll::getExpDrop() const {
+int Monster::getExpDrop() const {
 	return expDrop;
 }
 
-int Troll::getGoldDrop() const {
+int Monster::getGoldDrop() const {
 	return goldDrop;
 }
 
-string Troll::getItemDrop() const {
+string Monster::getItemDrop() const {
 	return itemDrop;
+}
+
+bool Monster::IsAlive() {
+	if (health > 0) return true;
+	else return false;
 }

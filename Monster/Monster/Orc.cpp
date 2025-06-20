@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Orc.h"
 #include <vector>
 
 Orc::Orc(int level) {
@@ -19,31 +20,36 @@ Orc::Orc(int level) {
 	vector<string> possibleItems = { "오크족 전투 휘장", "무게감 있는 주머니(3G)"};
 	itemDrop = possibleItems[getRandomInRange(0, possibleItems.size() - 1)];
 }
-string Orc::getName() const {
+string Monster::getName() const {
 	return name;
 }
 
-int Orc::getHealth() const {
+int Monster::getHealth() const {
 	return health;
 }
 
-int Orc::Attack() const {
+int Monster::Attack() const {
 	return attack;
 }
 
-void Orc::takeDamage(int damage) {
+void Monster::takeDamage(int damage) {
 	health -= damage;
 	if (health < 0) health = 0;
 }
 
-int Orc::getExpDrop() const {
+int Monster::getExpDrop() const {
 	return expDrop;
 }
 
-int Orc::getGoldDrop() const {
+int Monster::getGoldDrop() const {
 	return goldDrop;
 }
 
-string Orc::getItemDrop() const {
+string Monster::getItemDrop() const {
 	return itemDrop;
+}
+
+bool Monster::IsAlive() {
+	if (health > 0) return true;
+	else return false;
 }
