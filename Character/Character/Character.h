@@ -31,7 +31,10 @@ private:
 public:
 	Character();
 	static Character* GetInstance(string name = " "); //싱글턴 인스턴스
-	void DisplayStatus(); //플레이어의 현재 스탯 확인
+
+	//플레이어 정보
+	void DisplayStatus() const; //플레이어의 현재 스탯 확인
+	string GetName() const; //플레이어 이름
 
 	//전투 관련
 	void Attack();

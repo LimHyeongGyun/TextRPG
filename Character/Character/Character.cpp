@@ -5,6 +5,8 @@ Character* Character::charinstance = nullptr;
 
 Inventory* inventory = Inventory::GetInstance();
 
+#pragma region PlayerInformation
+
 Character::Character() {
     name = name;
     level = 1;
@@ -33,7 +35,7 @@ Character* Character::GetInstance(string name)
     return charinstance;
 }
 
-void Character::DisplayStatus()
+void Character::DisplayStatus() const
 {
     cout << "플레이어 캐릭터 이름: " << name << endl;
     cout << "플레이어 레벨: " << level << endl;
@@ -43,7 +45,18 @@ void Character::DisplayStatus()
     cout << "플레이어 소지 골드: " << gold << endl;
 }
 
-#pragma region 전투
+string Character::GetName() const
+{
+    return name;
+}
+#pragma endregion
+
+#pragma region Battle
+
+void Character::Attack()
+{
+
+}
 
 void Character::TakeDamage(int damage)
 {
@@ -76,7 +89,7 @@ void Character::Die()
 }
 #pragma endregion
 
-#pragma region 경험치(레벨)
+#pragma region Experience(Level)
 void Character::GetExperience(int getExperience)
 {
     experience += getExperience;
@@ -105,7 +118,7 @@ void Character::UpgradeStatus()
 }
 #pragma endregion
 
-#pragma region 장비
+#pragma region Equipment
 Item* Character::GetEquipWeapon()
 {
     return equipWeapon;
@@ -139,7 +152,7 @@ void Character::UnEquipStatus(int getAttack, int getHealth)
 
 #pragma endregion
 
-#pragma region 아이템 및 상점
+#pragma region Item & Shop
 
 void Character::GetItem(Item* getItem, int num)
 {
