@@ -1,7 +1,7 @@
-﻿﻿#include <iostream>
+﻿#include <iostream>
 #include "Character.h"
 
-Character * Character::charinstance = nullptr;
+Character* Character::charinstance = nullptr;
 
 Inventory* inventory = Inventory::GetInstance();
 
