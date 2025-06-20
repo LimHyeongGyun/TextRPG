@@ -183,18 +183,3 @@ Character::~Character()
     delete charInstance;
     charInstance = nullptr;
 }
-
-int main()
-{
-    string playerName;
-    cout << "사용할 캐릭터 이름을 입력 해 주세요: ";
-    cin >> playerName;
-
-    Character* character = Character::Get(playerName);
-    character->DisplayStatus();
-
-    /*character->GetExperience(300);
-    character->DisplayStatus();*/
-
-    return 0;
-}
