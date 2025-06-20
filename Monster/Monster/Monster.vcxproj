@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5a760036-8183-40e9-b7db-3b8567091d7e}</ProjectGuid>
-    <RootNamespace>Character</RootNamespace>
+    <ProjectGuid>{29698d9c-b68b-417d-ba8b-8254fd8774cb}</ProjectGuid>
+    <RootNamespace>Monster</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,12 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Goblin.cpp" />
+    <ClCompile Include="Orc.cpp" />
+    <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="Troll.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Item.h" />
+    <ClInclude Include="Monster.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
